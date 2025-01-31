@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="container">
+    <div class="col-md-4 offset-md-4">
+        <header>
+            <h1 class="text-secondary">{{ task.title }}</h1>
+        </header>
+        
+        <section>
+            <div>
+                <p>{{ task.description }}</p>
+            </div>
+        
+            <footer>
+                <p>{{ task.created }}</p>
+                <p>By {{ task.user.username }}</p>
+            </footer>
+        </section>
+        
+        <div class="d-flex justify-content-between">
+            {% if not task.datecompleted %}
+            <form action="{% url 'complete_task' task.id %}" method="POST">
+                {% csrf_token %}
+                
+                <button name="submit" class="btn btn-dark">
+                    Complete Task
+                </button>
+            </form>
+            {% endif %}
+        
+            <a href="{% url 'edit_task' task.id %}" class="btn btn-dark">Edit Task</a>
+
+            <form action="{% url 'delete_task' task.id %}" method="POST">
+                {% csrf_token %}
+
+                <button name="submit" class="btn btn-danger">
+                    Delete Task
+                </button>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}

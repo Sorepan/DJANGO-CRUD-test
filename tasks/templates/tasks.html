@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <header class="py-5">
+                <h1 class="text-center display-3">{{ type }} Tasks</h1>
+            </header>
+            
+            <section>
+                <ul class="list-group">
+                    {% for task in tasks %}
+                    <li class="list-group-item">
+                        {{ task.created }}
+
+                        <header class="d-flex justify-content-between">
+                            {% if task.important %}
+                            <h3><a href="{% url 'task' task.id %}" class="fw-bold text-success">{{ task.title }}</a></h3>
+                            {% else %}
+                            <h3><a href="{% url 'task' task.id %}" class="fw-bold">{{ task.title }}</a></h3>
+                            {% endif %}
+
+                            {{ task.user.username }}
+                        </header>
+
+                        <p>{{ task.description }}</p>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+            
+            {% if user.is_authenticated %}
+            <footer>
+                <a href="{% url 'create_task' %}" class="btn btn-dark">Create Task</a>
+            </footer>
+            {% endif %}
+        </div>
+    </div>
+</main>
+{% endblock %}
